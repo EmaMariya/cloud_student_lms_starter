@@ -7,6 +7,9 @@ app.secret_key = "change-this-secret-key"
 
 DB = "lms.db"
 
+@app.route("/healthz")
+def healthz():
+    return "OK", 200
 
 # =========================================================
 # DATABASE
