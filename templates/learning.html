@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="mb-4">
+
+        <a href="{{ url_for(
+            'course_learn',
+            course_id=course['id']
+        ) }}"
+        class="btn btn-outline-primary">
+
+            ← Back to Course
+
+        </a>
+
+    </div>
+
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body p-5">
+
+            <h1 class="fw-bold mb-3">
+
+                {{ course['name'] }}
+
+            </h1>
+
+            <p class="text-secondary">
+
+                Learning Module
+
+            </p>
+
+
+            <hr class="my-4">
+
+
+            <div class="alert alert-info">
+
+                Select a lesson from the course learning page
+                to begin studying.
+
+            </div>
+
+
+            <a href="{{ url_for(
+                'course_learn',
+                course_id=course['id']
+            ) }}"
+            class="btn btn-primary">
+
+                View Course Lessons →
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

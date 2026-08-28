@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body p-5 text-center">
+
+
+            <!-- Celebration -->
+
+            <div style="font-size: 90px;">
+                🎓
+            </div>
+
+
+            <h1 class="fw-bold text-success mb-3">
+
+                🎉 Congratulations!
+
+            </h1>
+
+
+            <h2 class="fw-bold mb-3">
+
+                {{ course['name'] }}
+
+            </h2>
+
+
+            <p class="lead text-secondary">
+
+                You have successfully completed this course.
+
+            </p>
+
+
+            <!-- Result -->
+
+            <div class="row justify-content-center mt-5">
+
+                <div class="col-md-4 mb-3">
+
+                    <div class="card border-0 bg-light">
+
+                        <div class="card-body">
+
+                            <div style="font-size: 35px;">
+                                📚
+                            </div>
+
+                            <h3 class="fw-bold">
+
+                                {{ completed_lessons|default(3) }}
+
+                            </h3>
+
+                            <p class="text-secondary mb-0">
+
+                                Lessons Completed
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-4 mb-3">
+
+                    <div class="card border-0 bg-light">
+
+                        <div class="card-body">
+
+                            <div style="font-size: 35px;">
+                                📝
+                            </div>
+
+                            <h3 class="fw-bold">
+
+                                {{ completed_tests|default(3) }}
+
+                            </h3>
+
+                            <p class="text-secondary mb-0">
+
+                                Tests Completed
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-4 mb-3">
+
+                    <div class="card border-0 bg-light">
+
+                        <div class="card-body">
+
+                            <div style="font-size: 35px;">
+                                🏆
+                            </div>
+
+                            <h3 class="fw-bold text-success">
+
+                                100%
+
+                            </h3>
+
+                            <p class="text-secondary mb-0">
+
+                                Course Progress
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Completed Status -->
+
+            <div class="alert alert-success mt-4">
+
+                <h4 class="fw-bold">
+
+                    ✅ COURSE COMPLETED
+
+                </h4>
+
+                <p class="mb-0">
+
+                    All lessons and tests have been successfully completed.
+
+                </p>
+
+            </div>
+
+
+            <!-- Buttons -->
+
+            <div class="mt-4">
+
+                <a href="{{ url_for('student') }}"
+                   class="btn btn-primary btn-lg me-2">
+
+                    ← Back to Dashboard
+
+                </a>
+
+
+                <a href="{{ url_for(
+                    'course_learn',
+                    course_id=course['id']
+                ) }}"
+                class="btn btn-outline-primary btn-lg">
+
+                    View Course
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

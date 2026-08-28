@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Back to Lesson -->
+    <div class="mb-4">
+
+        <a href="{{ url_for(
+            'lesson',
+            course_id=course['id'],
+            lesson_id=lesson_id
+        ) }}"
+        class="btn btn-outline-primary">
+
+            ← Back to Lesson
+
+        </a>
+
+    </div>
+
+
+    <!-- Result Card -->
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body p-5 text-center">
+
+            <h1 class="fw-bold mb-3">
+                📝 Test Result
+            </h1>
+
+
+            <h3 class="mb-4">
+                {{ course['name'] }}
+            </h3>
+
+
+            <p class="text-secondary mb-4">
+                Lesson {{ lesson_id }}
+            </p>
+
+
+            <!-- Percentage -->
+            <div class="mb-4">
+
+                <div class="display-3 fw-bold">
+                    {{ result['percentage'] }}%
+                </div>
+
+                <p class="text-secondary">
+                    Your Score
+                </p>
+
+            </div>
+
+
+            <!-- Score -->
+            <div class="fs-4 mb-4">
+
+                <strong>
+                    {{ result['score'] }}
+                </strong>
+
+                /
+
+                <strong>
+                    {{ result['total'] }}
+                </strong>
+
+                correct
+
+            </div>
+
+
+            <!-- Result Message -->
+
+            {% if result['percentage'] >= 50 %}
+
+                <div class="alert alert-success">
+
+                    <h5 class="fw-bold">
+                        🎉 Congratulations!
+                    </h5>
+
+                    <p class="mb-0">
+                        You passed the test.
+                        You can continue to the next lesson.
+                    </p>
+
+                </div>
+
+            {% else %}
+
+                <div class="alert alert-danger">
+
+                    <h5 class="fw-bold">
+                        Keep Practicing!
+                    </h5>
+
+                    <p class="mb-0">
+                        You did not pass the test.
+                        Please review the lesson and try again.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- Buttons -->
+
+            <div class="mt-4">
+
+                <a href="{{ url_for(
+                    'lesson',
+                    course_id=course['id'],
+                    lesson_id=lesson_id
+                ) }}"
+                class="btn btn-primary me-2">
+
+                    Back to Lesson
+
+                </a>
+
+
+                {% if result['percentage'] < 50 %}
+
+                <a href="{{ url_for(
+                    'take_test',
+                    course_id=course['id'],
+                    lesson_id=lesson_id
+                ) }}"
+                class="btn btn-outline-primary">
+
+                    Try Again
+
+                </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

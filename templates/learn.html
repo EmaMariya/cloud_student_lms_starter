@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="mb-4">
+        <a href="{{ url_for('course_details', course_id=course['id']) }}"
+           class="btn btn-outline-primary">
+            ← Back to Course
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-5">
+            <h1 class="fw-bold mb-2">{{ course['name'] }}</h1>
+            <p class="text-secondary mb-0">Learning Module</p>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-4">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <strong>Course Progress</strong>
+                <span>{{ completed_lessons }}/3 Lessons</span>
+            </div>
+
+            <div class="progress" style="height: 22px;">
+                <div class="progress-bar"
+                     role="progressbar"
+                     data-progress="{{ (completed_lessons / 3 * 100) | int }}">
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <strong>Test Progress</strong>
+                    <span>{{ completed_tests }}/3 Tests</span>
+                </div>
+                <div class="progress" style="height: 22px;">
+                    <div class="progress-bar"
+                        role="progressbar"
+                        data-test-progress="{{ (completed_tests / 3 * 100) | int }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4 p-md-5">
+
+            <h2 class="fw-bold mb-4">📖 Course Content</h2>
+
+            {% for item in progress %}
+
+            <div class="border rounded-3 p-4 mb-3">
+
+                <div class="d-flex justify-content-between align-items-start gap-3">
+
+                    <div>
+                        <h4 class="fw-bold mb-2">
+                            {{ item['title'] }}
+                        </h4>
+
+                        {% if item['test_completed'] %}
+                            <span class="badge bg-success">
+                                ✓ Test Completed
+                            </span>
+                        {% elif item['completed'] %}
+                            <span class="badge bg-warning text-dark">
+                                Test Available
+                            </span>
+                        {% elif item['unlocked'] %}
+                            <span class="badge bg-primary">
+                                Available
+                            </span>
+                        {% else %}
+                            <span class="badge bg-secondary">
+                                🔒 Locked
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        {% if item['test_completed'] %}
+
+                            <a href="{{ url_for(
+                                'lesson',
+                                course_id=course['id'],
+                                lesson_id=item['lesson_id']
+                            ) }}"
+                               class="btn btn-outline-success">
+                                Review Lesson
+                            </a>
+
+                        {% elif item['completed'] %}
+
+                            <a href="{{ url_for(
+                                'take_test',
+                                course_id=course['id'],
+                                lesson_id=item['lesson_id']
+                            ) }}"
+                               class="btn btn-warning">
+                                Take Test
+                            </a>
+
+                        {% elif item['unlocked'] %}
+
+                            <a href="{{ url_for(
+                                'lesson',
+                                course_id=course['id'],
+                                lesson_id=item['lesson_id']
+                            ) }}"
+                               class="btn btn-primary">
+                                Start Lesson
+                            </a>
+
+                        {% else %}
+
+                            <button class="btn btn-secondary" disabled>
+                                🔒 Locked
+                            </button>
+
+                        {% endif %}
+                    </div>
+
+                </div>
+
+                {% if item['test_completed'] %}
+                    <div class="mt-3 text-success">
+                        Lesson completed and test submitted.
+                    </div>
+                {% elif item['completed'] %}
+                    <div class="mt-3 text-warning-emphasis">
+                        Complete the test to unlock the next lesson.
+                    </div>
+                {% elif not item['unlocked'] %}
+                    <div class="mt-3 text-secondary">
+                        Complete the previous lesson and its test first.
+                    </div>
+                {% endif %}
+
+            </div>
+
+            {% endfor %}
+
+            {% if course_completed %}
+                <div class="alert alert-success mt-4">
+                    <strong>🎉 Course Completed!</strong>
+                    You completed all lessons and tests.
+                    <div class="mt-3">
+                        <a href="{{ url_for(
+                            'course_completed_page',
+                            course_id=course['id']
+                        ) }}"
+                           class="btn btn-success">
+                            View Course Result
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const progressBar = document.querySelector('.progress-bar');
+    const progress = progressBar.dataset.progress;
+
+    progressBar.style.width = progress + '%';
+
+    const testProgressBar = document.querySelector('[data-test-progress]');
+    const testProgress = testProgressBar.dataset.testProgress;
+
+    testProgressBar.style.width = testProgress + '%';
+</script>
+
+{% endblock %}

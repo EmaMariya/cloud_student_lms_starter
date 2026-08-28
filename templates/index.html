@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="hero-section text-center">
+
+    <h1 class="display-5 fw-bold">
+        Cloud-Based Student Learning Management System
+    </h1>
+
+    <p class="lead text-secondary mt-3">
+        Access courses, learning materials and academic results in one place.
+    </p>
+
+    <a href="/login" class="btn btn-primary btn-lg mt-3">
+        Login to Continue
+    </a>
+
+</div>
+
+<div class="row g-4 mt-5">
+
+    <div class="col-md-4">
+        <div class="card h-100 p-4 text-center">
+            <div class="fs-1 mb-3">📚</div>
+            <h4>Courses</h4>
+            <p class="text-secondary mb-0">
+                Explore your available courses and build your knowledge.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 p-4 text-center">
+            <div class="fs-1 mb-3">📄</div>
+            <h4>Learning Materials</h4>
+            <p class="text-secondary mb-0">
+                Access useful study resources and course materials easily.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 p-4 text-center">
+            <div class="fs-1 mb-3">📊</div>
+            <h4>Academic Results</h4>
+            <p class="text-secondary mb-0">
+                View your course marks and keep track of your progress.
+            </p>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

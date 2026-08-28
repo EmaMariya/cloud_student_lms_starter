@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="mb-4">
+        <a href="{{ url_for('course_learn', course_id=course['id']) }}"
+           class="btn btn-outline-primary">
+            ← Back to Course
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-5">
+            <h1 class="fw-bold mb-3">{{ lesson.title }}</h1>
+            <p class="text-secondary mb-0">{{ course['name'] }}</p>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-5">
+
+            <h2 class="fw-bold mb-4">📖 Lesson Content</h2>
+
+            <div class="lesson-content">
+                {{ lesson.content | safe }}
+            </div>
+
+            <hr class="my-5">
+
+            {% if test_completed %}
+
+                <div class="alert alert-success">
+                    <h5 class="fw-bold">✓ Lesson and test completed</h5>
+                    <p class="mb-3">
+                        You have already completed this lesson and its test.
+                    </p>
+
+                    <a href="{{ url_for(
+                        'course_learn',
+                        course_id=course['id']
+                    ) }}"
+                       class="btn btn-success">
+                        Back to Course
+                    </a>
+                </div>
+
+            {% elif completed %}
+
+                <div class="alert alert-warning">
+                    <h5 class="fw-bold">Lesson completed</h5>
+                    <p>
+                        Your test is now available. Complete the test
+                        to unlock the next lesson.
+                    </p>
+
+                    <a href="{{ url_for(
+                        'take_test',
+                        course_id=course['id'],
+                        lesson_id=lesson_id
+                    ) }}"
+                       class="btn btn-warning">
+                        Take Test →
+                    </a>
+                </div>
+
+            {% else %}
+
+                <form method="POST"
+                      action="{{ url_for(
+                          'complete_lesson',
+                          course_id=course['id'],
+                          lesson_id=lesson_id
+                      ) }}">
+
+                    <button type="submit"
+                            class="btn btn-primary btn-lg">
+                        ✓ Mark Lesson as Completed
+                    </button>
+
+                </form>
+
+                <p class="text-secondary mt-3 mb-0">
+                    After completing this lesson, the test will appear.
+                    The next lesson will remain locked until the test is completed.
+                </p>
+
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

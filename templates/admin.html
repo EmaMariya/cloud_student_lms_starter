@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Admin Dashboard</h2>
+
+<div class="row mt-3">
+
+    <!-- Add Course -->
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h5>Add Course</h5>
+
+            <form method="post" action="/admin/course">
+                <input
+                    class="form-control mb-2"
+                    name="name"
+                    placeholder="Course name"
+                    required
+                >
+
+                <textarea
+                    class="form-control mb-2"
+                    name="description"
+                    placeholder="Description"
+                    required
+                ></textarea>
+
+                <button class="btn btn-primary" type="submit">
+                    Add
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Add Material -->
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h5>Add Material</h5>
+
+            <form method="post" action="/admin/material">
+
+                <input
+                    class="form-control mb-2"
+                    name="title"
+                    placeholder="Material title"
+                    required
+                >
+
+                <input
+                    class="form-control mb-2"
+                    name="url"
+                    placeholder="S3/file URL"
+                    required
+                >
+
+                <button class="btn btn-primary" type="submit">
+                    Add
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Add Result -->
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h5>Add Result</h5>
+
+            <form method="post" action="/admin/result">
+
+                <input
+                    class="form-control mb-2"
+                    name="student"
+                    placeholder="student"
+                    required
+                >
+
+                <input
+                    class="form-control mb-2"
+                    name="course"
+                    placeholder="Course"
+                    required
+                >
+
+                <input
+                    class="form-control mb-2"
+                    name="mark"
+                    placeholder="Mark"
+                    required
+                >
+
+                <button class="btn btn-primary" type="submit">
+                    Add
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+<hr>
+
+<!-- Current Courses -->
+<h4>Current Courses</h4>
+
+<ul>
+
+    {% for c in courses %}
+
+    <li class="mb-2">
+
+        <strong>{{ c.name }}</strong>
+
+        <form
+            method="post"
+            action="{{ url_for('delete_course', course_id=c.id) }}"
+            style="display:inline;"
+            onsubmit="return confirm('Are you sure you want to delete this course and all related data?');"
+        >
+
+            <button
+                type="submit"
+                class="btn btn-danger btn-sm ms-2"
+            >
+                Delete
+            </button>
+
+        </form>
+
+    </li>
+
+    {% endfor %}
+
+</ul>
+
+
+<hr>
+
+<!-- Current Learning Materials -->
+<h4>Current Learning Materials</h4>
+
+<ul>
+
+    {% for m in materials %}
+
+    <li class="mb-2">
+
+        <strong>{{ m.title }}</strong>
+
+        <a
+            href="{{ m.link }}"
+            target="_blank"
+            class="btn btn-primary btn-sm ms-2"
+        >
+            Open Link
+        </a>
+
+        <form
+            method="post"
+            action="{{ url_for('delete_material', material_id=m.id) }}"
+            style="display:inline;"
+            onsubmit="return confirm('Are you sure you want to delete this learning material?');"
+        >
+
+            <button
+                type="submit"
+                class="btn btn-danger btn-sm ms-2"
+            >
+                Delete
+            </button>
+
+        </form>
+
+    </li>
+
+    {% endfor %}
+
+</ul>
+
+{% endblock %}

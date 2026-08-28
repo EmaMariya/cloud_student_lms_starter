@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ course['name'] }} - Cloud LMS</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #202124;
+        }
+
+        /* Header */
+        .navbar {
+            background: linear-gradient(90deg, #2563eb, #4f46e5);
+            color: white;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            font-size: 16px;
+        }
+
+        .nav-right a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-right a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main */
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            margin: 55px auto;
+        }
+
+        /* Back button */
+        .back-button {
+            display: inline-block;
+            padding: 10px 16px;
+            border: 1px solid #2563eb;
+            border-radius: 6px;
+            color: #2563eb;
+            text-decoration: none;
+            background: white;
+            font-size: 16px;
+            margin-bottom: 25px;
+        }
+
+        .back-button:hover {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* Course card */
+        .course-card {
+            background: white;
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .course-card h1 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 44px;
+            color: #202124;
+        }
+
+        .course-label {
+            color: #64748b;
+            font-size: 18px;
+            margin-bottom: 35px;
+        }
+
+        .divider {
+            border: 0;
+            border-top: 1px solid #ddd;
+            margin: 30px 0;
+        }
+
+        .course-card h2 {
+            font-size: 26px;
+            margin-bottom: 18px;
+            color: #111827;
+        }
+
+        .description {
+            font-size: 18px;
+            line-height: 1.7;
+            color: #263238;
+            margin-bottom: 30px;
+        }
+
+        /* Start Learning button */
+        .start-button {
+            display: block;
+            width: 100%;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #2563eb, #4f46e5);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .start-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Mobile */
+        @media (max-width: 700px) {
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .container {
+                width: 92%;
+                margin: 30px auto;
+            }
+
+            .course-card {
+                padding: 25px;
+            }
+
+            .course-card h1 {
+                font-size: 32px;
+            }
+
+            .nav-right {
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            ☁ Cloud LMS
+        </div>
+
+        <div class="nav-right">
+            {% if session.get('username') %}
+                <span>Hi, {{ session.get('username') }}</span>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% endif %}
+        </div>
+    </nav>
+
+
+    <!-- Main Content -->
+    <main class="container">
+
+        <!-- Back to Student Dashboard -->
+        <a href="{{ url_for('student') }}" class="back-button">
+            ← Back to Dashboard
+        </a>
+
+
+        <!-- Course Details -->
+        <section class="course-card">
+
+            <h1>
+                {{ course['name'] }}
+            </h1>
+
+            <div class="course-label">
+                Course Details
+            </div>
+
+            <hr class="divider">
+
+
+            <h2>
+                About this course
+            </h2>
+
+            <p class="description">
+                {{ course['description'] }}
+            </p>
+
+
+            <!-- IMPORTANT:
+                 The endpoint is course_learn.
+                 Do NOT use start_learning here.
+            -->
+            <a
+                href="{{ url_for('course_learn', course_id=course['id']) }}"
+                class="start-button"
+            >
+                Start Learning
+            </a>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

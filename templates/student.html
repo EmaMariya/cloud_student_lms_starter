@@ -1,0 +1,271 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- Dashboard Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Student Dashboard</h2>
+            <p class="text-secondary mb-0">
+                Welcome to your Cloud LMS learning space.
+            </p>
+        </div>
+
+        <span class="badge bg-primary-subtle text-primary p-2">
+            🎓 Student
+        </span>
+    </div>
+
+
+    <!-- Summary Cards -->
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-4 h-100">
+                <div class="d-flex align-items-center">
+                    <div class="fs-1 me-3">📚</div>
+                    <div>
+                        <p class="text-secondary mb-1">My Courses</p>
+                        <h3 class="fw-bold mb-0">{{ courses|length }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-4 h-100">
+                <div class="d-flex align-items-center">
+                    <div class="fs-1 me-3">📖</div>
+                    <div>
+                        <p class="text-secondary mb-1">Learning Materials</p>
+                        <h3 class="fw-bold mb-0">{{ materials|length }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-4 h-100">
+                <div class="d-flex align-items-center">
+                    <div class="fs-1 me-3">📊</div>
+                    <div>
+                        <p class="text-secondary mb-1">Academic Results</p>
+                        <h3 class="fw-bold mb-0">{{ results|length }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Main Dashboard -->
+    <div class="row g-4">
+
+        <!-- My Courses -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm p-4 h-100">
+
+                <div class="d-flex align-items-center mb-3">
+                    <div class="fs-2 me-3">📚</div>
+                    <div>
+                        <h4 class="fw-bold mb-0">My Courses</h4>
+                        <p class="text-secondary mb-0">
+                            Your available courses
+                        </p>
+                    </div>
+                </div>
+
+
+                {% for c in courses %}
+
+                <a href="{{ url_for('course_details', course_id=c['id']) }}"
+                   class="text-decoration-none text-dark">
+
+                    <div class="border rounded p-3 mb-3">
+
+                        <div class="d-flex align-items-center">
+
+                            <div class="bg-primary-subtle rounded p-2 me-3">
+                                📘
+                            </div>
+
+                            <div>
+                                <h5 class="fw-bold mb-1">
+                                    {{ c['name'] }}
+                                </h5>
+
+                                <p class="text-secondary mb-0">
+                                    {{ c['description'] }}
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+                {% else %}
+
+                <p class="text-secondary">
+                    No courses available.
+                </p>
+
+                {% endfor %}
+
+            </div>
+        </div>
+
+
+        <!-- Learning Materials -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm p-4 h-100">
+
+                <div class="d-flex align-items-center mb-3">
+                    <div class="fs-2 me-3">📖</div>
+                    <div>
+                        <h4 class="fw-bold mb-0">Learning Materials</h4>
+                        <p class="text-secondary mb-0">
+                            Study resources and useful links
+                        </p>
+                    </div>
+                </div>
+
+
+                {% for m in materials %}
+
+                <div class="border rounded p-3 mb-3">
+
+                    <div class="d-flex align-items-center">
+
+                        <div class="bg-primary-subtle rounded p-2 me-3">
+                            📄
+                        </div>
+
+                        <div>
+                            <h6 class="fw-bold mb-1">
+                                {{ m['title'] }}
+                            </h6>
+
+                            <a href="{{ m['link'] }}"
+                               target="_blank"
+                               class="text-decoration-none">
+                                Open learning material →
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% else %}
+
+                <p class="text-secondary">
+                    No learning materials available.
+                </p>
+
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Academic Results -->
+    <div class="card border-0 shadow-sm p-4 mt-4">
+
+        <div class="d-flex align-items-center mb-3">
+            <div class="fs-2 me-3">📊</div>
+
+            <div>
+                <h4 class="fw-bold mb-0">Academic Results</h4>
+                <p class="text-secondary mb-0">
+                    Your course marks and academic progress
+                </p>
+            </div>
+        </div>
+
+
+        {% if results %}
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+                    <tr>
+                        <th>Course</th>
+                        <th>Mark</th>
+                        <th>Performance</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for r in results %}
+
+                    <tr>
+
+                        <td class="fw-semibold">
+                            {{ r['course'] }}
+                        </td>
+
+                        <td>
+                            <strong>{{ r['mark'] }}</strong>
+                        </td>
+
+                        <td>
+
+                            {% if r['mark'] >= 80 %}
+                                <span class="badge bg-success">
+                                    Excellent
+                                </span>
+
+                            {% elif r['mark'] >= 60 %}
+                                <span class="badge bg-primary">
+                                    Good
+                                </span>
+
+                            {% elif r['mark'] >= 40 %}
+                                <span class="badge bg-warning text-dark">
+                                    Pass
+                                </span>
+
+                            {% else %}
+                                <span class="badge bg-danger">
+                                    Needs Improvement
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <p class="text-secondary mb-0">
+            No academic results available.
+        </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}
