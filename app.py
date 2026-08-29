@@ -5,7 +5,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 app.secret_key = "change-this-secret-key"
 
-DB = "lms.db"
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB = os.path.join(BASE_DIR, "lms.db")
 
 @app.route("/healthz")
 def healthz():
@@ -1826,6 +1829,7 @@ def add_result():
 # RUN
 # =========================================================
 
+init_db()
+
 if __name__ == "__main__":
-    init_db()
     app.run(debug=True)
