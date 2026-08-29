@@ -123,11 +123,26 @@ def init_db():
         conn.executemany(
             "INSERT INTO materials(title, link) VALUES (?, ?)",
             [
-                ("AWS Cloud Essentials", "#"),
-                ("Python Notes", "#"),
-                ("SQL Notes", "#")
+                ("AWS Cloud Essentials", "https://aws.amazon.com/getting-started/"),
+                ("Python Notes", "https://docs.python.org/3/tutorial/"),
+                ("SQL Notes", "https://www.w3schools.com/sql/")
             ]
         )
+
+    conn.execute(
+        "UPDATE materials SET link = ? WHERE title = ?",
+        ("https://aws.amazon.com/getting-started/", "AWS Cloud Essentials")
+    )
+
+    conn.execute(
+        "UPDATE materials SET link = ? WHERE title = ?",
+        ("https://docs.python.org/3/tutorial/", "Python Notes")
+    )
+
+    conn.execute(
+        "UPDATE materials SET link = ? WHERE title = ?",
+        ("https://www.w3schools.com/sql/", "SQL Notes")
+    )
 
     conn.commit()
     conn.close()
